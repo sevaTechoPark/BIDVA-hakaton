@@ -1,0 +1,90 @@
+import { useState } from 'react'
+import './App.css'
+import { Button } from 'primereact/button';
+import { InputText } from 'primereact/inputtext';
+import { InputTextarea } from 'primereact/inputtextarea';
+import { Card } from 'primereact/card';
+
+interface ISearchResult {
+    startIndex: number;
+    endIndex: number;
+    probability: number;
+}
+
+const MOCK_SEARCH_RESULT = {
+    startIndex: 43,
+    endIndex: 55,
+    probability: 0.9,
+} satisfies ISearchResult;
+
+function App() {
+    const [originalText, setOriginalText] = useState('Кстати, стремящиеся вытеснить традиционное производство, нанотехнологии будут функционально разнесены на независимые элементы. Безусловно, убеждённость некоторых оппонентов позволяет оценить значение стандартных подходов. Как принято считать, интерактивные прототипы ассоциативно распределены по отраслям.');
+    const [textToSearch, setTextToSearch] = useState('производство');
+    const [searchResult, setSearchResult] = useState<ISearchResult>(null);
+
+    async function onSearch() {
+        await new Promise(resolve => setTimeout(resolve, 1000));
+        setSearchResult(MOCK_SEARCH_RESULT);
+    }
+
+    function onReset() {
+        setSearchResult(null);
+    }
+
+    return (
+        <main>
+            <Card title="Семантический текстовый поиск">
+                <p className="m-0">
+                    Система семантического текстового поиска слов (словосочетаний), учитывающую не только точное
+                    написание, но и смысловое значение.
+                    Результатом должно быть определение позиции найденного слова/словосочетания в тексте и оценка
+                    вероятности совпадения.
+                </p>
+            </Card>
+
+            <div className='grid-input'>
+                <div className="textarea">
+                    <InputTextarea
+                        value={originalText}
+                        onChange={(e) => setOriginalText(e.target.value)}
+                        rows={5}
+                        cols={30}
+                        placeholder={'Текст в котором ищем'}
+                    />
+                </div>
+                <div className="controls">
+                    <InputText
+                        value={textToSearch}
+                        onChange={(e) => setTextToSearch(e.target.value)}
+                        placeholder={'Слова для поиска'}
+                    />
+                    <Button
+                        label="Найти"
+                        onClick={onSearch}
+                    />
+                    {Boolean(searchResult) && (
+                        <Button
+                            label="Сбросить"
+                            severity="secondary"
+                            onClick={onReset}
+                        />
+                    )}
+                </div>
+            </div>
+
+            {Boolean(searchResult) && (
+                <div className='search-result'>
+                    <Card title={`Вероятность совпадения ${searchResult.probability * 100}%`}>
+                        <p className="m-0">
+                            {originalText.slice(0, searchResult.startIndex)}
+                            <span className='highlight'>{originalText.slice(searchResult.startIndex, searchResult.endIndex)}</span>
+                            {originalText.slice(searchResult.endIndex)}
+                        </p>
+                    </Card>
+                </div>
+            )}
+        </main>
+    );
+}
+
+export default App;

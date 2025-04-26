@@ -1,0 +1,34 @@
+.grid-input {
+  display: grid;
+  grid-template-columns: 1fr 0.5fr;
+  gap: 20px;
+  margin: 20px auto 0;
+}
+
+.textarea {
+  grid-column: 1;
+}
+
+textarea {
+  resize: none;
+}
+
+.controls {
+  grid-column: 2; /* Размещение во второй колонке */
+  display: flex;
+  flex-direction: column;
+  gap: 10px; /* Расстояние между элементами в колонке */
+}
+
+textarea {
+  width: 100%;
+  height: 200px;
+}
+
+.search-result {
+  margin-top: 20px;
+}
+
+.highlight {
+  color: #f4770f;
+}
