@@ -1,0 +1,8 @@
+services:
+  app:
+    build:
+      context: ./web/
+      dockerfile: Dockerfile
+    network_mode: "host"
+    environment:
+      - NODE_ENV=development
