@@ -3,3 +3,4 @@ scikit-learn
 FastAPI
 sentence-transformers
 uvicorn
+hf_xet

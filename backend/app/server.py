@@ -2,10 +2,18 @@ import uvicorn
 from fastapi import FastAPI, Body
 from fastapi.responses import JSONResponse
 from semantic_search import SemanticSearch
-
+from fastapi.middleware.cors import CORSMiddleware
 
 search_model = SemanticSearch()
 app = FastAPI()
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:5173"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 @app.post('/search')
 def search(iPost_data = Body()):

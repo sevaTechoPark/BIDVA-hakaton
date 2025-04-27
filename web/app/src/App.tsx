@@ -33,6 +33,9 @@ function App() {
                     document: originalText,
                     word: textToSearch,
                 }),
+                headers: {
+                    'Content-Type': 'application/json',
+                },
             });
             const searchResult = await response.json();
             console.log(searchResult);
