@@ -1,4 +1,9 @@
 services:
+  server:
+    build:
+      context: ./backend/
+    ports:
+      - 5151:5151
   app:
     build:
       context: ./web/
@@ -6,3 +11,5 @@ services:
     network_mode: "host"
     environment:
       - NODE_ENV=development
+    depends_on:
+      - server

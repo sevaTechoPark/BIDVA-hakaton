@@ -1,3 +1,4 @@
+import uvicorn
 from fastapi import FastAPI, Body
 from fastapi.responses import JSONResponse
 from semantic_search import SemanticSearch
@@ -14,3 +15,6 @@ def search(iPost_data = Body()):
 
     search_result = search_model.search(document, word)
     return JSONResponse(search_result)
+
+if __name__ == '__main__':
+    uvicorn.run('server:app', host='0.0.0.0', port='5151')
