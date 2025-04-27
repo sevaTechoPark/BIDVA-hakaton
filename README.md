@@ -9,7 +9,7 @@ docker compose up
 ### linux
 
 ```
-docker-compose up
+docker compose up
 ```
 
 open http://localhost:5173/
