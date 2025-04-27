@@ -27,6 +27,15 @@ function App() {
         try {
             setLoadSearch(true);
 
+            const response = await fetch('http://localhost:5151/search', {
+                method: 'POST',
+                body: JSON.stringify({
+                    document: originalText,
+                    word: textToSearch,
+                }),
+            });
+            const searchResult = await response.json();
+            console.log(searchResult);
             await new Promise(resolve => setTimeout(resolve, 1000));
             // защита от дурака
             if (

@@ -2,8 +2,7 @@ services:
   server:
     build:
       context: ./backend/
-    ports:
-      - 5151:5151
+    network_mode: "host"
   app:
     build:
       context: ./web/
