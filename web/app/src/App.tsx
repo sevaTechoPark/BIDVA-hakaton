@@ -98,8 +98,8 @@ function App() {
                     <Card title={`Вероятность совпадения ${Number(searchResult.probability * 100).toFixed(2)}%`} subTitle={`Позиция ${searchResult.startIndex}-${searchResult.endIndex}`}>
                         <p className="m-0">
                             {originalText.slice(0, searchResult.startIndex)}
-                            <span className='highlight'>{originalText.slice(searchResult.startIndex, searchResult.endIndex)}</span>
-                            {originalText.slice(searchResult.endIndex)}
+                            <span className='highlight'>{originalText.slice(searchResult.startIndex, searchResult.endIndex + 1)}</span>
+                            {originalText.slice(searchResult.endIndex + 1)}
                         </p>
                     </Card>
                 </div>
