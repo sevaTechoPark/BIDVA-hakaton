@@ -11,15 +11,9 @@ interface ISearchResult {
     probability: number;
 }
 
-const MOCK_SEARCH_RESULT = {
-    startIndex: 43,
-    endIndex: 55,
-    probability: 0.9,
-} satisfies ISearchResult;
-
 function App() {
-    const [originalText, setOriginalText] = useState('Кстати, стремящиеся вытеснить традиционное производство, нанотехнологии будут функционально разнесены на независимые элементы. Безусловно, убеждённость некоторых оппонентов позволяет оценить значение стандартных подходов. Как принято считать, интерактивные прототипы ассоциативно распределены по отраслям.');
-    const [textToSearch, setTextToSearch] = useState('производство');
+    const [originalText, setOriginalText] = useState('');
+    const [textToSearch, setTextToSearch] = useState('');
     const [searchResult, setSearchResult] = useState<ISearchResult>(null);
     const [loadSearch, setLoadSearch] = useState(false);
 
@@ -37,19 +31,17 @@ function App() {
                     'Content-Type': 'application/json',
                 },
             });
-            const searchResult = await response.json();
-            console.log(searchResult);
-            await new Promise(resolve => setTimeout(resolve, 1000));
+            const searchResult: ISearchResult = await response.json();
             // защита от дурака
             if (
-                MOCK_SEARCH_RESULT.startIndex < 0
-                || MOCK_SEARCH_RESULT.startIndex > originalText.length
-                || MOCK_SEARCH_RESULT.endIndex > originalText.length
+                searchResult.startIndex < 0
+                || searchResult.startIndex > originalText.length
+                || searchResult.endIndex > originalText.length
             ) {
                 alert('Что-то не так с индексами start-end');
                 return;
             }
-            setSearchResult(MOCK_SEARCH_RESULT);
+            setSearchResult(searchResult);
         } finally {
             setLoadSearch(false);
         }
@@ -89,6 +81,7 @@ function App() {
                     <Button
                         label={loadSearch ? 'Поиск...' : 'Найти'}
                         onClick={onSearch}
+                        disabled={!textToSearch || !originalText}
                     />
                     {Boolean(searchResult) && (
                         <Button
@@ -102,7 +95,7 @@ function App() {
 
             {Boolean(searchResult) && (
                 <div className='search-result'>
-                    <Card title={`Вероятность совпадения ${searchResult.probability * 100}%`} subTitle={`Позиция ${searchResult.startIndex}-${searchResult.endIndex}`}>
+                    <Card title={`Вероятность совпадения ${Number(searchResult.probability * 100).toFixed(2)}%`} subTitle={`Позиция ${searchResult.startIndex}-${searchResult.endIndex}`}>
                         <p className="m-0">
                             {originalText.slice(0, searchResult.startIndex)}
                             <span className='highlight'>{originalText.slice(searchResult.startIndex, searchResult.endIndex)}</span>
