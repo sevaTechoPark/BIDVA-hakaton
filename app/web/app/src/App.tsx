@@ -12,10 +12,12 @@ interface ISearchResult {
 }
 
 function App() {
-    const [originalText, setOriginalText] = useState('');
-    const [textToSearch, setTextToSearch] = useState('');
-    const [searchResult, setSearchResult] = useState<ISearchResult>(null);
+    const [originalText, setOriginalText] = useState('ты возьми корзину прежде чем набрать продукты');
+    const [textToSearch, setTextToSearch] = useState('звонить');
+
     const [loadSearch, setLoadSearch] = useState(false);
+    const [searchResult, setSearchResult] = useState<ISearchResult>(null);
+    const [searchText, setSearchText] = useState('');
 
     async function onSearch() {
         try {
@@ -41,6 +43,7 @@ function App() {
                 alert('Что-то не так с индексами start-end');
                 return;
             }
+            setSearchText(originalText);
             setSearchResult(searchResult);
         } finally {
             setLoadSearch(false);
@@ -95,11 +98,14 @@ function App() {
 
             {Boolean(searchResult) && (
                 <div className='search-result'>
-                    <Card title={`Вероятность совпадения ${Number(searchResult.probability * 100).toFixed(2)}%`} subTitle={`Позиция ${searchResult.startIndex}-${searchResult.endIndex}`}>
+                    <Card
+                        title={`Вероятность совпадения ${Number(searchResult.probability * 100).toFixed(2)}%`}
+                        subTitle={`Позиция ${searchResult.startIndex}-${searchResult.endIndex}`}
+                    >
                         <p className="m-0">
-                            {originalText.slice(0, searchResult.startIndex)}
-                            <span className='highlight'>{originalText.slice(searchResult.startIndex, searchResult.endIndex + 1)}</span>
-                            {originalText.slice(searchResult.endIndex + 1)}
+                            {searchText.slice(0, searchResult.startIndex)}
+                            <span className='highlight'>{searchText.slice(searchResult.startIndex, searchResult.endIndex + 1)}</span>
+                            {searchText.slice(searchResult.endIndex + 1)}
                         </p>
                     </Card>
                 </div>
