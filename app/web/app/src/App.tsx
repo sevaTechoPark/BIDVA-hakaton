@@ -17,7 +17,7 @@ function App() {
 
     const [loadSearch, setLoadSearch] = useState(false);
     const [searchResult, setSearchResult] = useState<ISearchResult>(null);
-    const [searchText, setSearchText] = useState('');
+    const [searchResultText, setSearchResultText] = useState('');
 
     async function onSearch() {
         try {
@@ -43,14 +43,17 @@ function App() {
                 alert('Что-то не так с индексами start-end');
                 return;
             }
-            setSearchText(originalText);
+            setSearchResultText(originalText);
             setSearchResult(searchResult);
+        } catch (ex) {
+            onReset();
         } finally {
             setLoadSearch(false);
         }
     }
 
     function onReset() {
+        setSearchResultText('');
         setSearchResult(null);
     }
 
@@ -103,9 +106,9 @@ function App() {
                         subTitle={`Позиция ${searchResult.startIndex}-${searchResult.endIndex}`}
                     >
                         <p className="m-0">
-                            {searchText.slice(0, searchResult.startIndex)}
-                            <span className='highlight'>{searchText.slice(searchResult.startIndex, searchResult.endIndex + 1)}</span>
-                            {searchText.slice(searchResult.endIndex + 1)}
+                            {searchResultText.slice(0, searchResult.startIndex)}
+                            <span className='highlight'>{searchResultText.slice(searchResult.startIndex, searchResult.endIndex + 1)}</span>
+                            {searchResultText.slice(searchResult.endIndex + 1)}
                         </p>
                     </Card>
                 </div>
