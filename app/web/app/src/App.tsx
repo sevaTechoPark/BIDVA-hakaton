@@ -96,7 +96,7 @@ function App() {
                 </div>
             </div>
 
-            {Boolean(searchResult) && (
+            {(Boolean(searchResult) && !loadSearch) && (
                 <div className='search-result'>
                     <Card
                         title={`Вероятность совпадения ${Number(searchResult.probability * 100).toFixed(2)}%`}
